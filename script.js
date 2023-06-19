@@ -22,6 +22,7 @@ function randNumbGenerator (max){
 }
 
 //function to shuffle characters inside a string array
+//This is used to shuffle the available characters for the password to randomize the order
 
 function shuffleString(input){
   var stringArr = input.split("");
@@ -53,10 +54,12 @@ function getpasswordOptions(){
   //checks for number to be with 8 to 128
   if (passlength < 8){
     alert("Password must be atleast 8 characters")
+    return null;
   }
 
   if (passlength > 129){
     alert("Password must be less than 129 characters")
+    return null;
   }
   
 
@@ -89,8 +92,62 @@ return {
 //added the function to call prompts under the generatePassword function in the Assignment Code
 function generatePassword(){
   var passwordOptions = getpasswordOptions();
+  return buildPassword(passwordOptions);
 }
 
+//Function to build password based on user selections on the prompts
+function buildPassword(passwordOptions){
+
+  //returns error message if password option inputs are incorrect
+  if (!passwordOptions){
+    return "Invalid Password Option!"
+  }
+
+  //stores list of all vaialble characters
+  var allAvailChar = [];
+  //stores all guaranteed characters based on selected options
+  //This refers to one of any selected charcater type selected by the user 
+  var guaranteedChars = [];
+
+  //final password characters
+  var result = [];
+
+  //Adds selected character type array to the list of available characters for the password creation
+  //Adds one random element of the selected charcater type to the guaranteed characters array
+  if (passwordOptions.hasSpecialChar){
+    allAvailChar = allAvailChar.concat(specialChar);
+    guaranteedChars.push(randomSelector(specialChar));
+  }
+
+  if (passwordOptions.hasNumericChar){
+    allAvailChar = allAvailChar.concat(numChar);
+    guaranteedChars.push(randomSelector(numChar));
+  }
+
+  if (passwordOptions.haslowercaseChar){
+    allAvailChar = allAvailChar.concat(lowercasedChar);
+    guaranteedChars.push(randomSelector(lowercasedChar));
+  }
+
+  if (passwordOptions.hasUppercaseChar){
+    allAvailChar = allAvailChar.concat(UppercasedChar);
+    guaranteedChars.push(randomSelector(UppercasedChar));
+  }
+
+  console.log(allAvailChar);
+  console.log(guaranteedChars);
+
+  // Adds the array of the guaranteed characters to the password
+  result = result.concat(guaranteedChars);
+
+//randomly selects password characters from available characters and adds to the guaranteed characters for the password
+for (i=0; i <passwordOptions.passlength - guaranteedChars.length; i++) {
+result.push(randomSelector(allAvailChar))
+}
+
+//shuffles the password string and returns the final password string
+return shuffleString(result.join(""));
+}
 
 
 // Assignment Code
