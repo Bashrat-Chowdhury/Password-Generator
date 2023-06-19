@@ -62,7 +62,7 @@ function getpasswordOptions(){
     return null;
   }
   
-
+//takes boolean value based on user input
 var hasSpecialChar = confirm(
   "Click OK if you would like to include special characters"
 );
