@@ -21,7 +21,22 @@ function randNumbGenerator (max){
   return Math.floor(Math.random() * (max));
 }
 
+//function to shuffle characters inside a string array
 
+function shuffleString(input){
+  var stringArr = input.split("");
+  
+  for (var i=stringArr.length-1;i>=0;i--){
+    var randomIndex = randNumbGenerator(stringArr.length);
+    var temp = stringArr[i];
+    stringArr[i] = stringArr[randomIndex];
+    stringArr[randomIndex] = temp;
+  }
+  
+  return stringArr.join("");
+}
+
+//function to get password options using prompts
 function getpasswordOptions(){
 
   //prompt to ask how many characters the password should be
@@ -75,6 +90,8 @@ return {
 function generatePassword(){
   var passwordOptions = getpasswordOptions();
 }
+
+
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
